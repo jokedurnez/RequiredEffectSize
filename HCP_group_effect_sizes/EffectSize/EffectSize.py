@@ -21,6 +21,8 @@ VarCopeFile = os.path.join(ConDir,'group.gfeat','cope1.feat','stats','varcope1.n
 VarCope = nib.load(VarCopeFile).get_data()
 MaskFile = os.path.join(ConDir,'group.gfeat','cope1.feat','mask.nii.gz')
 Mask = nib.load(MaskFile).get_data()
+TStatFile = os.path.join(ConDir,'group.gfeat','cope1.feat','stats','tstat1.nii.gz')
+TStat = nib.load(TStatFile).get_data()
 
 # mask
 
@@ -32,7 +34,7 @@ mask_ind['z'] = indd[2]
 #print(mask_ind)
 
 # Compute Cohens D
-D = Cope/VarCope/np.sqrt(186)
+D = TStat/np.sqrt(186)
 
 # export values
 COHENSD = np.nanmedian(D[mask_ind.x,mask_ind.y,mask_ind.z])
