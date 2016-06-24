@@ -3,28 +3,39 @@
 #SBATCH --job-name=EffectSizes
 #SBATCH --output=error/out.EffectSizes
 #SBATCH --error=error/err.EffectSizes
-#SBATCH --time=3:00:00
-#SBATCH --nodes=1
+#SBATCH --time=24:00:00
+#SBATCH --nodes=10
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=8
 #SBATCH --partition=russpold
 #SBATCH --qos=russpold
 
-# Directory of Connectome in a box
 ConnectomeInABoxDir=$HCPDIR
+
 # Experiment to be analyzed
-Paradigm=("MOTOR" "WM" "EMOTION" "GAMBLING")
-# Which contrast from the experiment
-Contrast=(7 11 3 6)
+Paradigms=("tfMRI_MOTOR" "tfMRI_WM" "tfMRI_EMOTION" "tfMRI_GAMBLING" "tfMRI_LANGUAGE" "tfMRI_SOCIAL")
+Paradigm_name=("MOTOR" "WM" "EMOTION" "GAMBLING" "LANGUAGE" "SOCIAL")
+
+Contrasts=(26 30 6 6 6 6)
+
 # Working Directory
-WorkDir=/home/jdurnez/effect_sizes/HCP_group_effect_sizes/
+HomeDir=/home/jdurnez/effect_sizes/
+WorkDir=/scratch/users/jdurnez/effect_sizes/
+OutDir=/scratch/users/jdurnez/effect_sizes/EffectSizes/
 
 # File with subjects to be included and disks on which they appear
-SubjectsFile=$WorkDir/SubjectSelection/IDs_all_cons_and_unrelated.txt
+SubjectsFile=$HomeDir/SubjectSelection/IDs_all_cons_and_unrelated.txt
 
-for exp in {0..3} ; do
+for exp in {0..5} ; do
 
-  ConDir=$WorkDir/GroupAnalyses/tfMRI_${Paradigm[exp]}/
+  for con in $(seq 1 ${Contrasts[exp]}); do
+      echo $con
 
-  # Extract Effectsizes
-  python $WorkDir/EffectSize/EffectSize.py ${Paradigm[exp]} $ConDir $WorkDir/
+      ConDir=$WorkDir/GroupAnalyses/tfMRI_${Paradigm_name[exp]}/Contrast_$con
+
+      # Extract Effectsizes
+      python $HomeDir/EffectSize/EffectSize.py ${Paradigm_name[exp]} $con $ConDir $WorkDir
+
+  done
 
 done
