@@ -4,7 +4,7 @@
 #SBATCH --output=error/out.EffectSizes
 #SBATCH --error=error/err.EffectSizes
 #SBATCH --time=24:00:00
-#SBATCH --nodes=10
+#SBATCH --nodes=11
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=8
 #SBATCH --partition=russpold
@@ -14,9 +14,9 @@
 ConnectomeInABoxDir=$HCPDIR
 
 # Experiment to be analyzed
-Paradigms=("tfMRI_MOTOR" "tfMRI_WM" "tfMRI_EMOTION" "tfMRI_GAMBLING" "tfMRI_LANGUAGE" "tfMRI_SOCIAL")
+Paradigms=("tfMRI_MOTOR" "tfMRI_WM" "tfMRI_EMOTION" "tfMRI_GAMBLING" "tfMRI_LANGUAGE" "tfMRI_SOCIAL" "tfMRI_RELATIONAL")
 
-Contrasts=(26 30 6 6 6 6)
+Contrasts=(26 30 6 6 6 6 6)
 
 # Working Directory
 HomeDir=/home/jdurnez/effect_sizes/
